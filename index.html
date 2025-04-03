@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -35,6 +34,9 @@
             background-color: var(--light-color);
             color: var(--dark-color);
             line-height: 1.6;
+            /* Megakadályozza az oldal automatikus görgetését mobil billentyűzet megjelenésekor */
+            overflow-x: hidden;
+            position: relative;
         }
 
         #app {
@@ -473,6 +475,7 @@
         /* Customer Name Input */
         .customer-name-container {
             margin: 1.5rem 0;
+            position: relative;
         }
 
         .customer-name-label {
@@ -489,6 +492,8 @@
             border-radius: 5px;
             font-size: 1rem;
             transition: var(--transition);
+            /* Megakadályozza az automatikus nagyítást iOS-en */
+            font-size: 16px;
         }
 
         .customer-name-input:focus {
@@ -509,6 +514,8 @@
             border: 1px solid #ddd;
             border-radius: 5px 0 0 5px;
             font-size: 0.9rem;
+            /* Megakadályozza az automatikus nagyítást iOS-en */
+            font-size: 16px;
         }
 
         .coupon-btn {
@@ -619,6 +626,14 @@
             .btn-sm {
                 padding: 0.4rem 0.8rem;
                 font-size: 0.8rem;
+            }
+        }
+
+        /* Mobil billentyűzet megjelenésekor ne görgessen */
+        @media (max-width: 768px) {
+            body {
+                position: fixed;
+                width: 100%;
             }
         }
     </style>
@@ -785,6 +800,25 @@
             loadCart();
             renderProducts();
             updateCartView();
+            
+            // Megakadályozza az automatikus nagyítást iOS-en, amikor a beviteli mező fókuszba kerül
+            elements.customerName.addEventListener('focus', function() {
+                document.body.style.position = 'fixed';
+                document.body.style.width = '100%';
+            });
+            
+            elements.customerName.addEventListener('blur', function() {
+                document.body.style.position = 'relative';
+            });
+            
+            elements.couponCode.addEventListener('focus', function() {
+                document.body.style.position = 'fixed';
+                document.body.style.width = '100%';
+            });
+            
+            elements.couponCode.addEventListener('blur', function() {
+                document.body.style.position = 'relative';
+            });
         }
 
         // Load cart from localStorage
